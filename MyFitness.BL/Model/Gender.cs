@@ -2,8 +2,10 @@
 
 namespace MyFitness.BL.Model
 {
+    [Serializable]
     public class Gender
     {
+        
         public string Name { get; }
 
         public Gender(string Name)

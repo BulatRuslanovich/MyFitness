@@ -2,6 +2,7 @@
 
 namespace MyFitness.BL.Model
 {
+    [Serializable]  
     public class User
     {
         public string Name { get; }
