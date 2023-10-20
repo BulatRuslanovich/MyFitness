@@ -5,28 +5,61 @@ using System;
 namespace MyFitness.CMD {
     class Program {
         static void Main(string[] args) {
-            Console.WriteLine("MyFitness");
-            Console.WriteLine("Enter user name");
+            Console.WriteLine("\"MyFitness app\"");
+            Console.Write("Enter user name: ");
 
             var name = Console.ReadLine();
 
-            Console.WriteLine("Enter the gender");
-            var gender = Console.ReadLine();
+            var userController = new UserController(name);
+            if (userController.IsNewUser)
+            {
+                Console.Write("Enter the gender: ");
+                var gender = Console.ReadLine();
 
-            Console.WriteLine("Enter birthdate");
+  
+                DateTime birthDate = ParseDate();
+                double weight = ParseDouble("weight");
+                double height = ParseDouble("height");           
+                userController.SetNewUserData(gender, birthDate, weight, height);
 
-            var birthdate = DateTime.Parse(Console.ReadLine());
+            }
+            Console.WriteLine(userController.CurrentUser);
+        }
 
-            Console.WriteLine("Enter the weight");
+        private static DateTime ParseDate()
+        {
+            while (true)
+            {
+                Console.Write("Enter the birthdate (dd.MM.yyyy): ");
+                if (DateTime.TryParse(Console.ReadLine(), out DateTime birthDate))
+                {
+                    return birthDate;
+                }
+                else
+                {
+                    Console.WriteLine("Wrong format!");
+                }
 
-            var weight = double.Parse(Console.ReadLine());
+            }
+        }
 
-            Console.WriteLine("Enter the height");
 
-            var height = double.Parse(Console.ReadLine());
 
-            var userController = new UserController(name, gender, birthdate, weight, height);
-            userController.Save();
+        private static double ParseDouble(string name)
+        {
+            while (true)
+            {
+                Console.Write($"Enter the {name}: ");
+                if (double.TryParse(Console.ReadLine(), out double value))
+                {
+                    return value;
+                }
+                else
+                {
+                    Console.WriteLine("Wrong format!");
+                }
+
+            }
         }
     }
 }
