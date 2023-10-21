@@ -1,12 +1,10 @@
 ﻿using MyFitness.BL.Model;
-using System;
-using System.Runtime.Serialization.Formatters.Binary;
 
 namespace MyFitness.BL.Controller
 {
-    
-    public class UserController
+    public class UserController : ControllerBase
     {
+        private const string USERS_FILE_NAME = "users.json";
         public List<User> Users { get; }
         public User CurrentUser { get; }
         public bool IsNewUser { get; } = false;
@@ -33,7 +31,7 @@ namespace MyFitness.BL.Controller
 
         public void SetNewUserData(string genderName, DateTime birthDate, double weight = 1, double height = 1)
         {
-            //Check
+            // TODO: Check
 
             CurrentUser.Gender = new Gender(genderName);
             CurrentUser.BirthDate = birthDate;
@@ -42,37 +40,22 @@ namespace MyFitness.BL.Controller
             Save();
 
         }
-
+     
         private List<User> GetUsersData()
         {
-            var formatter = new BinaryFormatter();
-
-            using (var file = new FileStream("users.dat", FileMode.OpenOrCreate))
+            var usersData = Load<User[]>(USERS_FILE_NAME);
+            if (usersData != default(User[]))
             {
-#pragma warning disable SYSLIB0011 
-                if (file.Length > 0 && formatter.Deserialize(file) is List<User> users)
-                {
-                    return users;
-                } else
-                {
-                    return new List<User>();
-                }
-
-               
-
-#pragma warning restore SYSLIB0011
-
+                return usersData.ToList();
+            } else
+            {
+                return new List<User>();
             }
         }
 
         private void Save()
         {
-            var formatter = new BinaryFormatter();
-            using (var file = new FileStream("users.dat", FileMode.OpenOrCreate)) {
-#pragma warning disable SYSLIB0011
-                formatter.Serialize(file, Users);
-#pragma warning restore SYSLIB0011 
-            }
+            base.Save<User[]>(USERS_FILE_NAME, Users.ToArray());
         }
         
 

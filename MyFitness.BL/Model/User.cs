@@ -1,14 +1,20 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace MyFitness.BL.Model
 {
-    [Serializable]  
+    [DataContract]
     public class User
     {
-        public string Name { get; }
+        [DataMember]
+        public string Name { get; set; }
+        [DataMember]
         public Gender Gender { get; set; }
+        [DataMember]
         public DateTime BirthDate { get; set; }
+        [DataMember]
         public double Weight { get; set; }
+        [DataMember]
         public double Height { get; set; }
 
         private int GetAge()
@@ -69,6 +75,7 @@ namespace MyFitness.BL.Model
             }
 
             this.Name = Name;
+            this.BirthDate = DateTime.Now;
         }
 
         public override string ToString()

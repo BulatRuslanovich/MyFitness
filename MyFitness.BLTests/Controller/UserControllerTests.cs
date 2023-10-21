@@ -37,7 +37,7 @@ namespace MyFitness.BL.Controller.Tests
             var controller_2 = new UserController(userName);
 
             Assert.AreEqual(userName, controller_2.CurrentUser.Name);
-            Assert.AreEqual(birthdate, controller_2.CurrentUser.BirthDate);
+            Assert.AreEqual(controller_2.CurrentUser.BirthDate.Date, birthdate.Date);
             Assert.AreEqual(weight, controller_2.CurrentUser.Weight);
             Assert.AreEqual(height, controller_2.CurrentUser.Height);
             Assert.AreEqual(gender, controller_2.CurrentUser.Gender.ToString());

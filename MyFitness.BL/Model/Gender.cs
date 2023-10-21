@@ -1,12 +1,12 @@
-﻿using System;
+﻿using System.Runtime.Serialization;
 
 namespace MyFitness.BL.Model
 {
-    [Serializable]
+    [DataContract]
     public class Gender
     {
-        
-        public string Name { get; }
+        [DataMember]
+        public string Name { get; set; }
 
         public Gender(string Name)
         {
