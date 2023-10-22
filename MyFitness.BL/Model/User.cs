@@ -1,18 +1,24 @@
-﻿using System.Runtime.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
 
 namespace MyFitness.BL.Model {
 	[DataContract]
 	public class User {
+		public int Id { get; set; }
 		[DataMember]
 		public string Name { get; set; }
+		public int? GenderId { get; set; }
 		[DataMember]
-		public Gender Gender { get; set; }
+		public virtual Gender Gender { get; set; } 
 		[DataMember]
-		public DateTime BirthDate { get; set; }
+		public DateTime BirthDate { get; set; } = DateTime.Now;
 		[DataMember]
 		public double Weight { get; set; }
 		[DataMember]
 		public double Height { get; set; }
+
+		public virtual ICollection<Eating> Eatings { get; set; }
+		public virtual ICollection<Exercise> Exercises { get; set; }
 
 		private int GetAge() {
 			DateTime nowDate = DateTime.Now;
@@ -25,6 +31,7 @@ namespace MyFitness.BL.Model {
 			return Age;
 		}
 
+		public User() { }
 
 		public User(string Name, Gender Gender, DateTime BirthDate, double Weight, double Height) {
 			#region Data Check

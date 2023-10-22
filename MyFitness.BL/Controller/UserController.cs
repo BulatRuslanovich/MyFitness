@@ -2,7 +2,6 @@
 
 namespace MyFitness.BL.Controller {
 	public class UserController : ControllerBase {
-		private const string USERS_FILE_NAME = "users.json";
 		public List<User> Users { get; }
 		public User CurrentUser { get; }
 		public bool IsNewUser { get; } = false;
@@ -17,7 +16,7 @@ namespace MyFitness.BL.Controller {
 			CurrentUser = Users.SingleOrDefault(u => u.Name == userName);
 
 			if(CurrentUser == null) {
-				CurrentUser = new User(userName);
+				CurrentUser = new User(userName);    
 				Users.Add(CurrentUser);
 				IsNewUser = true;
 				Save();
@@ -36,16 +35,11 @@ namespace MyFitness.BL.Controller {
 		}
 
 		private List<User> GetUsersData() {
-			var usersData = Load<User[]>(USERS_FILE_NAME);
-			if(usersData != default(User[])) {
-				return usersData.ToList();
-			} else {
-				return new List<User>();
-			}
+			return Load<User>() ?? new List<User>();
 		}
 
 		private void Save() {
-			base.Save<User[]>(USERS_FILE_NAME, Users.ToArray());
+			Save(Users);
 		}
 
 

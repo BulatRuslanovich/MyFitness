@@ -2,8 +2,6 @@
 
 namespace MyFitness.BL.Controller {
 	public class EatingController : ControllerBase {
-		private const string FOODS_FILE_NAME = "foods.json";
-		private const string EATINGS_FILE_NAME = "eatings.json";
 		private readonly User user;
 		public List<Food> Foods { get; }
 		public Eating Eating { get; }
@@ -29,21 +27,16 @@ namespace MyFitness.BL.Controller {
 		}
 
 		private List<Food> GetAllFoods() {
-			var foodDate = Load<Food[]>(FOODS_FILE_NAME);
-			if(foodDate != default(Food[])) {
-				return foodDate.ToList();
-			} else {
-				return new List<Food>();
-			}
+			return Load<Food>() ?? new List<Food>();
 		}
 
 		private void Save() {
-			base.Save<Food[]>(FOODS_FILE_NAME, Foods.ToArray());
-			base.Save<Eating>(EATINGS_FILE_NAME, Eating);
+			Save(Foods);
+			Save(new List<Eating>() { Eating });
 		}
 
 		private Eating GetEating() {
-			return Load<Eating>(EATINGS_FILE_NAME) ?? new Eating(user);
+			return Load<Eating>().FirstOrDefault() ?? new Eating(user);
 		}
 	}
 }

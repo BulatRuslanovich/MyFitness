@@ -53,7 +53,7 @@ namespace MyFitness.CMD {
 						var exercizeData = EnterExercise();
 						execiseControler.Add(exercizeData.Activity, exercizeData.begin, exercizeData.end);
 		
-						foreach(var item in execiseControler.Exercizes) {
+						foreach(var item in execiseControler.Exercises) {
 							Console.WriteLine($"{item.Activity} from {item.Start.ToShortTimeString()} to {item.Finish.ToShortTimeString()}");
 						}
 

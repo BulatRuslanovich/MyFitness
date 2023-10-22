@@ -2,17 +2,22 @@
 
 namespace MyFitness.BL.Model {
 	[DataContract]
-	public class Exercize {
+	public class Exercise {
+		public int Id { get; set; }
 		[DataMember]
 		public DateTime Start { get; set; }
 		[DataMember]
 		public DateTime Finish { get; set; }
+		public int ActivityId { get; set; }
 		[DataMember]
-		public Activity Activity { get; set; }
+		public virtual Activity Activity { get; set; }
+		public int UserId { get; set; }
 		[DataMember]
-		public User User { get; set; }
+		public virtual User User { get; set; }
 
-		public Exercize(DateTime Start, DateTime Finish, Activity Activity, User User) {
+		public Exercise() { }
+
+		public Exercise(DateTime Start, DateTime Finish, Activity Activity, User User) {
 			// TODO : checking
 			this.Start = Start;
 			this.Finish = Finish;

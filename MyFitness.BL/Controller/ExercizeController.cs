@@ -2,15 +2,13 @@
 
 namespace MyFitness.BL.Controller {
 	public class ExercizeController : ControllerBase {
-		private const string EXERCIZES_FILE_NAME = "exercizes.json";
-		private const string ACTIVITIES_FILE_NAME = "activities.json";
 		private readonly User user;
-		public List<Exercize> Exercizes { get; }
+		public List<Exercise> Exercises { get; }
 		public List<Activity> Activitys { get; }
 
 		public ExercizeController(User user) {
 			this.user = user ?? throw new ArgumentException(nameof(user));
-			Exercizes = GetAllExercises();
+			Exercises = GetAllExercises();
 			Activitys = GetAllActivities();
 
 		}
@@ -21,37 +19,27 @@ namespace MyFitness.BL.Controller {
 			if(act == null) {
 				Activitys.Add(activity);
 
-				var exercise = new Exercize(begin, end, activity, user);
-				Exercizes.Add(exercise);
+				var exercise = new Exercise(begin, end, activity, user);
+				Exercises.Add(exercise);
 			} else {
-				var exercise = new Exercize(begin, end, activity, user);
-				Exercizes.Add(exercise);
+				var exercise = new Exercise(begin, end, activity, user);
+				Exercises.Add(exercise);
 			}
 
 			Save();
 		}
 
 		private List<Activity> GetAllActivities() {
-			var activitiesDate = Load<Activity[]>(ACTIVITIES_FILE_NAME);
-			if(activitiesDate != default(Activity[])) {
-				return activitiesDate.ToList();
-			} else {
-				return new List<Activity>();
-			}
+			return Load<Activity>() ?? new List<Activity>();
 		}
 
-		private List<Exercize> GetAllExercises() {
-			var exercizesDate = Load<Exercize[]>(EXERCIZES_FILE_NAME);
-			if(exercizesDate != default(Exercize[])) {
-				return exercizesDate.ToList();
-			} else {
-				return new List<Exercize>();
-			}
+		private List<Exercise> GetAllExercises() {
+			return Load<Exercise>() ?? new List<Exercise>();
 		}
 
 		private void Save() {
-			base.Save<Exercize[]>(EXERCIZES_FILE_NAME, Exercizes.ToArray());
-			base.Save<Activity[]>(ACTIVITIES_FILE_NAME, Activitys.ToArray());
+			Save(Activitys);
+			Save(Exercises);
 		}
 	}
 }

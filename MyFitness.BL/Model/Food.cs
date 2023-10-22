@@ -3,8 +3,10 @@
 namespace MyFitness.BL.Model {
 	[DataContract]
 	public class Food {
+		public int Id { get; set; }
 		[DataMember]
 		public string Name { get; set; }
+
 		[DataMember]
 		public double Proteins { get; set; }
 		[DataMember]
@@ -13,6 +15,10 @@ namespace MyFitness.BL.Model {
 		public double Carbohydrates { get; set; }
 		[DataMember]
 		public double Calories { get; set; }
+
+		public virtual ICollection<Eating> Eatings { get; set; }
+
+		public Food() {	}
 
 		public Food(string Name) : this(Name, 0, 0, 0, 0) { }
 
